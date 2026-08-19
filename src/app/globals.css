@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+:root {
+  /* NCM Brand Colors */
+  --ncm-blue: #0d6efd;
+  --ncm-dark: #212529;
+  --ncm-white: #ffffff;
+
+  /* Global Theme */
+  --background: var(--ncm-white);
+  --foreground: var(--ncm-dark);
+
+  /* NCM Typography */
+  --font-heading: var(--font-poppins);
+  --font-body: var(--font-open-sans);
+}
+
+@theme inline {
+  /* Colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-ncm-blue: var(--ncm-blue);
+  --color-ncm-dark: var(--ncm-dark);
+  --color-ncm-white: var(--ncm-white);
+
+  /* Fonts */
+  --font-sans: var(--font-poppins);
+  --font-body: var(--font-open-sans);
+}
+
+/* Global Base */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+}
+
+/* Better text rendering */
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: var(--ncm-blue);
+  color: var(--ncm-white);
+}
