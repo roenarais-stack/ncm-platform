@@ -2,7 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { Permission, UserRole } from "@/app/lib/auth/permissions";
+import {
+  getPermissions,
+  type Permission,
+  type UserRole,
+} from "@/app/lib/auth/permissions";
 
 interface AdminSidebarProps {
   role: UserRole;
@@ -59,37 +63,18 @@ const navItems = [
     href: "/admin/security",
     permission: "security.manage",
   },
-] as const;
-
-const rolePermissions: Record<UserRole, Permission[]> = {
-  super_admin: [
-    "dashboard.view",
-    "website.manage",
-    "portfolio.manage",
-    "services.manage",
-    "testimonials.manage",
-    "leads.view",
-    "team.manage",
-    "permissions.manage",
-    "settings.manage",
-    "security.manage",
-  ],
-
-  admin: [
-    "dashboard.view",
-    "portfolio.manage",
-    "services.manage",
-    "testimonials.manage",
-    "leads.view",
-  ],
-} as const;
+] satisfies ReadonlyArray<{
+  label: string;
+  href: string;
+  permission: Permission;
+}>;
 
 export default function AdminSidebar({
   role,
 }: AdminSidebarProps) {
   const pathname = usePathname();
 
-  const permissions = rolePermissions[role];
+  const permissions = getPermissions(role);
 
   const visibleItems = navItems.filter((item) =>
     permissions.includes(item.permission),

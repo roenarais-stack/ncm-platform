@@ -1,7 +1,7 @@
-import { getCurrentUser } from "@/app/lib/auth/authorize";
+import { requirePermission } from "@/app/lib/auth/authorize";
 
 export default async function AdminDashboardPage() {
-  const { user, profile } = await getCurrentUser();
+  const { user, profile } = await requirePermission("dashboard.view");
 
   return (
     <main className="min-h-full">
