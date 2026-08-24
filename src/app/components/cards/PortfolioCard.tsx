@@ -13,7 +13,7 @@ export default function PortfolioCard({
   category,
   description,
   image,
-  href = "#",
+  href,
 }: PortfolioCardProps) {
   return (
     <article className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-blue-200 hover:shadow-xl">
@@ -51,12 +51,14 @@ export default function PortfolioCard({
       </p>
 
       {/* Case Study */}
-      <Link
-        href={href}
-        className="mt-6 inline-flex font-heading text-sm font-semibold text-blue-600 transition-colors duration-200 hover:text-blue-800"
-      >
-        View Case Study →
-      </Link>
+      {href && (
+        <Link
+          href={href}
+          className="mt-6 inline-flex font-heading text-sm font-semibold text-blue-600 transition-colors duration-200 hover:text-blue-800"
+        >
+          View Case Study →
+        </Link>
+      )}
 
     </article>
   );
