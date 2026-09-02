@@ -1,20 +1,24 @@
 import TestimonialCard from "@/app/components/cards/TestimonialCard";
 import SectionTitle from "@/app/components/ui/SectionTitle";
+import { getPublishedTestimonials } from "@/app/lib/testimonials/queries";
 
-const testimonials = [
+const STATIC_TESTIMONIALS = [
   {
+    id: "static-sarah-ahmed",
     name: "Sarah Ahmed",
     company: "Startup Founder",
     review:
       "NCM transformed our brand identity and website. The entire experience was smooth and highly professional.",
   },
   {
+    id: "static-ali-raza",
     name: "Ali Raza",
     company: "Business Owner",
     review:
       "Excellent communication, premium quality work and timely delivery. Highly recommended.",
   },
   {
+    id: "static-michael-james",
     name: "Michael James",
     company: "E-commerce Brand",
     review:
@@ -22,7 +26,25 @@ const testimonials = [
   },
 ];
 
-export default function Testimonials() {
+type TestimonialDisplay = (typeof STATIC_TESTIMONIALS)[number];
+
+export default async function Testimonials() {
+  let testimonials: TestimonialDisplay[] = STATIC_TESTIMONIALS;
+
+  try {
+    const publishedTestimonials = await getPublishedTestimonials();
+    if (publishedTestimonials.length > 0) {
+      testimonials = publishedTestimonials.map((testimonial) => ({
+        id: testimonial.id,
+        name: testimonial.client_name,
+        company: testimonial.company ?? "",
+        review: testimonial.review,
+      }));
+    }
+  } catch {
+    // Keep the public section available if the database query fails.
+  }
+
   return (
     <section
       id="testimonials"
@@ -38,7 +60,7 @@ export default function Testimonials() {
       <div className="mt-16 grid gap-8 md:grid-cols-3">
         {testimonials.map((item) => (
           <TestimonialCard
-            key={item.name}
+            key={item.id}
             name={item.name}
             company={item.company}
             review={item.review}

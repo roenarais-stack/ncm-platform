@@ -84,6 +84,42 @@ export type Database = {
         };
         Relationships: [];
       };
+      testimonials: {
+        Row: {
+          id: string;
+          client_name: string;
+          company: string | null;
+          review: string;
+          avatar_url: string | null;
+          is_published: boolean;
+          sort_order: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          client_name: string;
+          company?: string | null;
+          review: string;
+          avatar_url?: string | null;
+          is_published?: boolean;
+          sort_order?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          client_name?: string;
+          company?: string | null;
+          review?: string;
+          avatar_url?: string | null;
+          is_published?: boolean;
+          sort_order?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
