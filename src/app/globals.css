@@ -11,6 +11,8 @@
   --foreground: var(--ncm-dark);
 
   /* NCM Typography */
+  --font-poppins: "Poppins", sans-serif;
+  --font-open-sans: "Open Sans", sans-serif;
   --font-heading: var(--font-poppins);
   --font-body: var(--font-open-sans);
 }

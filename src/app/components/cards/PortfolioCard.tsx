@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 interface PortfolioCardProps {
@@ -19,12 +20,14 @@ export default function PortfolioCard({
     <article className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-blue-200 hover:shadow-xl">
 
       {/* Project Image */}
-      <div className="mb-5 h-48 overflow-hidden rounded-2xl bg-gradient-to-br from-blue-50 to-slate-100">
+      <div className="relative mb-5 h-48 overflow-hidden rounded-2xl bg-gradient-to-br from-blue-50 to-slate-100">
 
         {image ? (
-          <img
+          <Image
             src={image}
             alt={title}
+            fill
+            sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
