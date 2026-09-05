@@ -20,6 +20,11 @@ export type Database = {
           external_url: string | null;
           is_published: boolean;
           sort_order: number;
+          featured_slot: number | null;
+          overview: string | null;
+          challenge: string | null;
+          solution: string | null;
+          outcome: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -33,6 +38,11 @@ export type Database = {
           external_url?: string | null;
           is_published?: boolean;
           sort_order?: number;
+          featured_slot?: number | null;
+          overview?: string | null;
+          challenge?: string | null;
+          solution?: string | null;
+          outcome?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -46,6 +56,11 @@ export type Database = {
           external_url?: string | null;
           is_published?: boolean;
           sort_order?: number;
+          featured_slot?: number | null;
+          overview?: string | null;
+          challenge?: string | null;
+          solution?: string | null;
+          outcome?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -119,6 +134,39 @@ export type Database = {
           updated_at?: string;
         };
         Relationships: [];
+      };
+      portfolio_item_services: {
+        Row: {
+          portfolio_item_id: string;
+          service_id: string;
+          created_at: string;
+        };
+        Insert: {
+          portfolio_item_id: string;
+          service_id: string;
+          created_at?: string;
+        };
+        Update: {
+          portfolio_item_id?: string;
+          service_id?: string;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "portfolio_item_services_portfolio_item_id_fkey";
+            columns: ["portfolio_item_id"];
+            isOneToOne: false;
+            referencedRelation: "portfolio_items";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "portfolio_item_services_service_id_fkey";
+            columns: ["service_id"];
+            isOneToOne: false;
+            referencedRelation: "services";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       leads: {
         Row: {

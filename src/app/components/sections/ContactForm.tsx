@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, FormEvent, ChangeEvent } from "react";
+import { useEffect, useState, useRef, FormEvent, ChangeEvent } from "react";
 import { submitLeadForm } from "@/app/admin/(panel)/leads/actions";
 import { LEAD_SERVICE_OPTIONS } from "@/app/lib/leads/validation";
 
@@ -28,6 +28,13 @@ export default function ContactForm() {
   });
 
   const formRef = useRef<HTMLFormElement>(null);
+  const errorSummaryRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (submitStatus === "error") {
+      errorSummaryRef.current?.focus();
+    }
+  }, [submitStatus]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -116,13 +123,22 @@ export default function ContactForm() {
 
       {/* Status messages */}
       {submitStatus === "success" && (
-        <div className="rounded-xl bg-emerald-50 p-4 text-emerald-700">
+        <div
+          role="status"
+          aria-live="polite"
+          className="rounded-xl bg-emerald-50 p-4 text-emerald-700"
+        >
           <p className="font-semibold">{submitMessage}</p>
         </div>
       )}
 
       {submitStatus === "error" && submitMessage && (
-        <div className="rounded-xl bg-red-50 p-4 text-red-700">
+        <div
+          ref={errorSummaryRef}
+          role="alert"
+          tabIndex={-1}
+          className="rounded-xl bg-red-950/60 p-4 text-red-200 outline-none focus:ring-2 focus:ring-red-300 focus:ring-offset-2 focus:ring-offset-slate-950"
+        >
           <p className="font-semibold">{submitMessage}</p>
         </div>
       )}
@@ -131,7 +147,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="name"
-          className="block text-sm font-semibold text-slate-700"
+          className="block text-sm font-semibold text-slate-200"
         >
           Name <span className="text-red-500">*</span>
         </label>
@@ -153,7 +169,7 @@ export default function ContactForm() {
           placeholder="Your name"
         />
         {errors.name && (
-          <p id="name-error" className="mt-1 text-sm text-red-600">
+          <p id="name-error" className="mt-1 text-sm text-red-300">
             {errors.name}
           </p>
         )}
@@ -163,7 +179,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="email"
-          className="block text-sm font-semibold text-slate-700"
+          className="block text-sm font-semibold text-slate-200"
         >
           Email
         </label>
@@ -184,7 +200,7 @@ export default function ContactForm() {
           placeholder="your@email.com"
         />
         {errors.email && (
-          <p id="email-error" className="mt-1 text-sm text-red-600">
+          <p id="email-error" className="mt-1 text-sm text-red-300">
             {errors.email}
           </p>
         )}
@@ -194,7 +210,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="phone"
-          className="block text-sm font-semibold text-slate-700"
+          className="block text-sm font-semibold text-slate-200"
         >
           Phone / WhatsApp
         </label>
@@ -215,7 +231,7 @@ export default function ContactForm() {
           placeholder="+92 315 6515317"
         />
         {errors.phone && (
-          <p id="phone-error" className="mt-1 text-sm text-red-600">
+          <p id="phone-error" className="mt-1 text-sm text-red-300">
             {errors.phone}
           </p>
         )}
@@ -225,7 +241,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="company"
-          className="block text-sm font-semibold text-slate-700"
+          className="block text-sm font-semibold text-slate-200"
         >
           Company / Business
         </label>
@@ -246,7 +262,7 @@ export default function ContactForm() {
           placeholder="Your company name"
         />
         {errors.company && (
-          <p id="company-error" className="mt-1 text-sm text-red-600">
+          <p id="company-error" className="mt-1 text-sm text-red-300">
             {errors.company}
           </p>
         )}
@@ -256,7 +272,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="service"
-          className="block text-sm font-semibold text-slate-700"
+          className="block text-sm font-semibold text-slate-200"
         >
           Service Interested In
         </label>
@@ -282,7 +298,7 @@ export default function ContactForm() {
           ))}
         </select>
         {errors.service && (
-          <p id="service-error" className="mt-1 text-sm text-red-600">
+          <p id="service-error" className="mt-1 text-sm text-red-300">
             {errors.service}
           </p>
         )}
@@ -292,7 +308,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="message"
-          className="block text-sm font-semibold text-slate-700"
+          className="block text-sm font-semibold text-slate-200"
         >
           Message
         </label>
@@ -313,7 +329,7 @@ export default function ContactForm() {
           placeholder="Tell us about your project..."
         />
         {errors.message && (
-          <p id="message-error" className="mt-1 text-sm text-red-600">
+          <p id="message-error" className="mt-1 text-sm text-red-300">
             {errors.message}
           </p>
         )}
@@ -323,7 +339,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition duration-300 hover:bg-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed sm:w-auto"
+        className="w-full rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition duration-300 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-950 disabled:cursor-not-allowed disabled:bg-slate-400 sm:w-auto"
       >
         {isSubmitting ? "Sending..." : "Send Message"}
       </button>

@@ -28,35 +28,35 @@ export default function Footer() {
             <div className="flex flex-col gap-3">
 
               <Link
-                href="#services"
+                href="/#services"
                 className="text-slate-400 transition hover:text-white"
               >
                 Services
               </Link>
 
               <Link
-                href="#why-us"
+                href="/#why-us"
                 className="text-slate-400 transition hover:text-white"
               >
                 Why NCM
               </Link>
 
               <Link
-                href="#portfolio"
+                href="/portfolio"
                 className="text-slate-400 transition hover:text-white"
               >
                 Portfolio
               </Link>
 
               <Link
-                href="#testimonials"
+                href="/#testimonials"
                 className="text-slate-400 transition hover:text-white"
               >
                 Testimonials
               </Link>
 
               <Link
-                href="#contact"
+                href="/#contact"
                 className="text-slate-400 transition hover:text-white"
               >
                 Contact

@@ -1,7 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requirePermission } from "@/app/lib/auth/authorize";
-import { getPortfolioItem } from "@/app/lib/portfolio/queries";
+import {
+  getAdminPortfolioServiceIds,
+  getAdminPortfolioServiceOptions,
+  getPortfolioItem,
+} from "@/app/lib/portfolio/queries";
 import PortfolioForm from "../../PortfolioForm";
 
 export default async function EditPortfolioPage({
@@ -14,6 +18,10 @@ export default async function EditPortfolioPage({
   const item = await getPortfolioItem(id);
 
   if (!item) notFound();
+  const [services, linkedServiceIds] = await Promise.all([
+    getAdminPortfolioServiceOptions(),
+    getAdminPortfolioServiceIds(item.id),
+  ]);
 
   return (
     <section className="px-6 py-8 lg:px-8">
@@ -28,7 +36,11 @@ export default async function EditPortfolioPage({
           Edit portfolio item
         </h1>
         <div className="mt-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-          <PortfolioForm item={item} />
+          <PortfolioForm
+            item={item}
+            services={services}
+            linkedServiceIds={linkedServiceIds}
+          />
         </div>
       </div>
     </section>

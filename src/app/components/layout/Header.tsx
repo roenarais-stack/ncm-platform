@@ -5,10 +5,10 @@ import Link from "next/link";
 import Button from "@/app/components/ui/Button";
 
 const navItems = [
-  { name: "Services", href: "#services" },
-  { name: "Why NCM", href: "#why-us" },
-  { name: "Portfolio", href: "#portfolio" },
-  { name: "Contact", href: "#contact" },
+  { name: "Services", href: "/#services" },
+  { name: "Why NCM", href: "/#why-us" },
+  { name: "Portfolio", href: "/portfolio" },
+  { name: "Contact", href: "/#contact" },
 ];
 
 export default function Header() {
@@ -46,7 +46,7 @@ export default function Header() {
 
         {/* Desktop CTA */}
         <div className="hidden md:block">
-          <Button href="#contact" variant="primary">
+          <Button href="/#contact" variant="primary">
             Book Consultation
           </Button>
         </div>
@@ -82,7 +82,7 @@ export default function Header() {
 
             <div className="mt-3">
               <Button
-                href="#contact"
+                href="/#contact"
                 variant="primary"
                 fullWidth
                 onClick={closeMenu}

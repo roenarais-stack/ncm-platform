@@ -5,6 +5,7 @@ export const PORTFOLIO_LIMITS = {
   description: 2000,
   imagePath: 500,
   externalUrl: 2048,
+  caseStudyField: 10000,
 } as const;
 
 export interface PortfolioInput {
@@ -16,6 +17,11 @@ export interface PortfolioInput {
   external_url: string | null;
   is_published: boolean;
   sort_order: number;
+  featured_slot: 1 | 2 | 3 | null;
+  overview: string | null;
+  challenge: string | null;
+  solution: string | null;
+  outcome: string | null;
 }
 
 export interface ValidationResult {
@@ -44,12 +50,23 @@ export function validatePortfolioForm(formData: FormData): ValidationResult {
   const description = String(formData.get("description") ?? "").trim();
   const image_path = trimOptional(formData.get("image_path"));
   const external_url = trimOptional(formData.get("external_url"));
+  const overview = trimOptional(formData.get("overview"));
+  const challenge = trimOptional(formData.get("challenge"));
+  const solution = trimOptional(formData.get("solution"));
+  const outcome = trimOptional(formData.get("outcome"));
+  const featuredSlotValue = trimOptional(formData.get("featured_slot"));
   const sort_order = Number.parseInt(
     String(formData.get("sort_order") ?? "0"),
     10,
   );
   const is_published = formData.get("is_published") === "on";
   const errors: Record<string, string> = {};
+  const featured_slot =
+    featuredSlotValue === null
+      ? null
+      : featuredSlotValue === "1" || featuredSlotValue === "2" || featuredSlotValue === "3"
+        ? Number(featuredSlotValue) as 1 | 2 | 3
+        : null;
 
   if (!title) errors.title = "Title is required.";
   else if (title.length > PORTFOLIO_LIMITS.title) {
@@ -94,6 +111,25 @@ export function validatePortfolioForm(formData: FormData): ValidationResult {
     errors.sort_order = "Sort order must be a non-negative integer.";
   }
 
+  if (featuredSlotValue !== null && featured_slot === null) {
+    errors.featured_slot = "Featured slot must be None, 1, 2, or 3.";
+  }
+
+  if (featured_slot !== null && !is_published) {
+    errors.featured_slot = "Clear the featured slot before unpublishing this project.";
+  }
+
+  for (const [field, value] of Object.entries({
+    overview,
+    challenge,
+    solution,
+    outcome,
+  })) {
+    if (value && value.length > PORTFOLIO_LIMITS.caseStudyField) {
+      errors[field] = `This field must be ${PORTFOLIO_LIMITS.caseStudyField} characters or fewer.`;
+    }
+  }
+
   if (Object.keys(errors).length > 0) return { errors };
 
   return {
@@ -107,6 +143,11 @@ export function validatePortfolioForm(formData: FormData): ValidationResult {
       external_url,
       is_published,
       sort_order,
+      featured_slot,
+      overview,
+      challenge,
+      solution,
+      outcome,
     },
   };
 }

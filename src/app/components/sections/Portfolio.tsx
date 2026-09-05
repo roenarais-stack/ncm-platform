@@ -1,7 +1,8 @@
 import SectionTitle from "@/app/components/ui/SectionTitle";
 import PortfolioCard from "@/app/components/cards/PortfolioCard";
+import Link from "next/link";
 import {
-  getPublishedPortfolioItems,
+  getHomepagePortfolioItems,
   type PortfolioItem,
 } from "@/app/lib/portfolio/queries";
 
@@ -9,7 +10,7 @@ export default async function Portfolio() {
   let portfolioItems: PortfolioItem[];
 
   try {
-    portfolioItems = await getPublishedPortfolioItems();
+    portfolioItems = await getHomepagePortfolioItems();
   } catch {
     portfolioItems = [];
   }
@@ -37,11 +38,22 @@ export default async function Portfolio() {
               title={project.title}
               category={project.category}
               description={project.description}
-              href={project.external_url ?? undefined}
+              image={project.image_path ?? undefined}
+              href={`/portfolio/${project.slug}`}
+              externalUrl={project.external_url ?? undefined}
             />
           ))}
         </div>
       )}
+
+      <div className="mt-12 flex justify-center">
+        <Link
+          href="/portfolio"
+          className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition-all duration-300 hover:border-blue-600 hover:text-blue-600"
+        >
+          View All Portfolio
+        </Link>
+      </div>
     </section>
   );
 }

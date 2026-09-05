@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { requirePermission } from "@/app/lib/auth/authorize";
+import { getAdminPortfolioServiceOptions } from "@/app/lib/portfolio/queries";
 import PortfolioForm from "../PortfolioForm";
 
 export default async function NewPortfolioPage() {
   await requirePermission("portfolio.manage");
+  const services = await getAdminPortfolioServiceOptions();
 
   return (
     <section className="px-6 py-8 lg:px-8">
@@ -18,7 +20,7 @@ export default async function NewPortfolioPage() {
           Add portfolio item
         </h1>
         <div className="mt-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-          <PortfolioForm />
+          <PortfolioForm services={services} />
         </div>
       </div>
     </section>
